@@ -36,7 +36,7 @@ sed -i "s/^spark.default.parallelism.*/spark.default.parallelism=${CORES}/g; \
 sed -i "s@^SPARK_MASTER@spark://${SPARK_MASTER}:7077@g" /etc/spark/conf/spark-defaults.conf
 sed -i "" /etc/spark/conf/spark-env.sh
 
-# TODO: set non default ports for spark 
+# TODO: set non default ports for spark?
 if [[ "${SPARK_MASTER}" == "${SPARK_WORKER_LOCAL}" ]]; then
     #start spark master as well
     sudo -u spark -E /opt/apache/spark/sbin/start-master.sh
@@ -44,9 +44,11 @@ fi
 sudo -u spark -E /opt/apache/spark/sbin/start-slave.sh spark://$SPARK_MASTER:7077
 
 # Run the app
-sudo -u $SLIDER_APP_USER -E $SPARK_HOME/bin/hadoop fs -get /user/slider/$SLIDER_APP_NAME /tmp
-sudo -u $SLIDER_APP_USER -E chmod +x /tmp/$SLIDER_APP_NAME/run.sh
-sudo -u $SLIDER_APP_USER -E /tmp/$SLIDER_APP_NAME/run.sh &
+if [[ "${SPARK_MASTER}" == "${SPARK_WORKER_LOCAL}" ]]; then
+    sudo -u $SLIDER_APP_USER -E $SPARK_HOME/bin/hadoop fs -get /user/slider/$SLIDER_APP_NAME /tmp
+    sudo -u $SLIDER_APP_USER -E chmod +x /tmp/$SLIDER_APP_NAME/run.sh
+    sudo -u $SLIDER_APP_USER -E /tmp/$SLIDER_APP_NAME/run.sh &
+fi
 
 # Leave the container running
 /usr/bin/supervisord -c /etc/supervisord.conf

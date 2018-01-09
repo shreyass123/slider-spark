@@ -1,4 +1,6 @@
 #!/bin/bash
+cd $(dirname $(readlink -nf $0))
+set -e
 if [[ "$1" == "" || "$2" == "" ]];then
     echo "Usage: launch.sh <app-name> <run.sh-folder>"
     exit 1
