@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [[ "$1" != "fs" ]]; then
+    echo "Only hadoop fs commands are supported"
+    exit 1
+fi
+shift 1
+cp=/etc/hadoop/conf
+for i in `find /opt/apache/spark/jars`;
+do
+    cp=$cp:$i
+done
+
+java -cp $cp org.apache.hadoop.fs.FsShell $@

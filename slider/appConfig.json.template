@@ -1,0 +1,17 @@
+{
+    "schema": "http://example.org/specification/v2.0.0",
+    "metadata": {
+    },
+    "global": {
+    },
+    "components": {
+            "MASTER": {
+                "master.options":"-d -e @SLIDER_APP_NAME@ -e @SLIDER_APP_USER@ -e @MEM@ -e @CORES@ -v /usr/hdp/current:/usr/hdp/current -v /usr/hdp/2.6.1.0-129:/usr/hdp/2.6.1.0-129 -v /etc/slider:/etc/slider -v /etc/hadoop:/etc/hadoop -v /etc/hive:/etc/hive -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY --net=host",
+                "master.statusCommand":"docker inspect -f {{.State.Running}} ${CONTAINER_ID} | grep true"
+            },
+            "WORKER": {
+                "worker.options":"-d -e @SLIDER_APP_NAME@ -e @SLIDER_APP_USER@ -e @MEM@ -e @CORES@ -v /usr/hdp/current:/usr/hdp/current -v /usr/hdp/2.6.1.0-129:/usr/hdp/2.6.1.0-129 -v /etc/slider:/etc/slider -v /etc/hadoop:/etc/hadoop -v /etc/hive:/etc/hive --net=host",
+                "worker.statusCommand":"docker top ${CONTAINER_ID} | grep org.apache.spark.deploy.worker.Worker"
+            }
+    }
+}

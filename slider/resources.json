@@ -1,0 +1,20 @@
+{
+    "schema": "http://example.org/specification/v2.0.0",
+    "metadata": { },
+    "global": { },
+    "components": {
+        "slider-appmaster": { },
+        "MASTER": {
+            "yarn.role.priority": "1",
+            "yarn.component.instances": "1",
+            "yarn.memory": "4096",
+            "yarn.vcores": "4"
+        },
+        "WORKER": {
+            "yarn.role.priority": "2",
+            "yarn.component.instances": "2",
+            "yarn.memory": "4096",
+            "yarn.vcores": "4"
+        }
+    }
+}
