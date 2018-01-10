@@ -1,0 +1,14 @@
+
+syntax_version: "6"
+project_name: slider
+docker_image: shreyass123/slider-spark
+enable_gui: true
+macros:
+  run:
+    usage: run spark in container
+environment:
+  CORES: 4
+  MEM: 4096
+ports:
+  - "8080:8080"
+
