@@ -8,7 +8,8 @@ yum clean all
 
 # Install spark
 RUN mkdir -p /opt/apache
-RUN curl -s http://apache.osuosl.org/spark/spark-2.2.1/spark-2.2.1-bin-hadoop2.7.tgz | tar xz -C /opt/apache
+#RUN curl -s http://apache.osuosl.org/spark/spark-2.2.1/spark-2.2.1-bin-hadoop2.7.tgz | tar xz -C /opt/apache
+RUN curl -s http://apache.cs.utah.edu/spark/spark-2.3.0/spark-2.3.0-bin-hadoop2.7.tgz | tar xz -C /opt/apache
 RUN ln -s /opt/apache/spark-* /opt/apache/spark; mkdir -p /etc/spark; ln -s /opt/apache/spark/conf /etc/spark/conf
 ADD spark-defaults.conf spark-env.sh /etc/spark/conf/
 ADD hadoop /opt/apache/spark/bin
@@ -24,6 +25,8 @@ RUN yum install -y epel-release && \
 yum install -y R && \
 yum install -y git xml2 libxml2-devel curl curl-devel openssl-devel pandoc libcurl-devel && \
 yum clean all
+
+RUN R -e "install.packages(c('tidyverse', 'nycflights13', 'gapminder', 'Lahman', 'devtools'), repos='http://cran.r-project.org', INSTALL_opts='--no-html')"
 
 # Set env
 ENV TERM xterm

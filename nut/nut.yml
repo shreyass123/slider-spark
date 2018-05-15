@@ -8,7 +8,7 @@ macros:
     usage: run spark in container
 environment:
   CORES: 4
-  MEM: 4096
+  MEM: 8192
 ports:
   - "8080:8080"
-
+  - "7077:7077"
